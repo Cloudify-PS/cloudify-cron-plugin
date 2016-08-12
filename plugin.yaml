@@ -1,0 +1,53 @@
+###########################################################
+## This Blueprint install keepalived deamon
+## on cloudify manager
+############################################################
+tosca_definitions_version: cloudify_dsl_1_3
+
+plugins:
+  cron:
+    executor: central_deployment_agent
+    source: https://github.com/Cloudify-PS/cloudify-cron-plugin/archive/dev.zip
+
+node_types:
+
+  cron.nodes.Job:
+    derived_from: cloudify.nodes.SoftwareComponent
+    properties:
+      minute:
+        type: string
+        default: '*'
+      hour:
+        type: string
+        default: '*'
+      day_of_month:
+        type: string
+        default: '*'
+      month:
+        type: string
+        default: '*'
+      day_of_week:
+        type: string
+        default: '*'
+      script_path:
+        type: string
+        default: ''
+      target_cron_path:
+        type: string
+        default: '/var/spool/cron/root'
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        create:
+          implementation: cron.cron.operations.create
+          inputs:
+            target_cron_path:
+              default: { get_property: [SELF, target_cron_path] }
+            fabric_env:
+              default: {}
+        delete:
+          implementation: cron.cron.operations.delete
+          inputs:
+            target_cron_path:
+              default: { get_property: [SELF, target_cron_path] }
+            fabric_env:
+              default: {}
