@@ -15,7 +15,7 @@ def get_target_script_path(script_target_path):
 
 
 def copy_script_file(script_target_path):
-    tmpfile = ctx.download_resource(script_target_path)
+    tmpfile = ctx.download_resource_and_render(script_target_path)
     target_script_path = get_target_script_path(script_target_path)
     put(tmpfile, tmpfile)
     run('sudo mv {0} {1}'.format(tmpfile, target_script_path))
