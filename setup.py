@@ -8,7 +8,7 @@ setup(
     # Do not use underscores in the plugin name.
     name='cloudify-cron-plugin',
 
-    version='0.1',
+    version='1.0',
     description='ENTER-DESCRIPTION-HERE',
 
     # This must correspond to the actual packages in the plugin.
